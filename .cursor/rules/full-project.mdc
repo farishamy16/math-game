@@ -1,0 +1,252 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Next.js Monolithic Architecture Guidelines
+
+## Technology Stack
+
+- Framework: Next.js ("next": "15.3.2") with TypeScript (Monolithic Architecture)
+  - Server Components for server-side rendering
+  - Client Components when interactivity is needed
+- UI: TailwindCSS ("tailwindcss": "^4.1.5") + DaisyUI (^5.0.35)
+- Database: Supabase (powered by PostgreSQL)
+
+## Architecture Overview
+
+- Single Next.js application with a simple, straightforward architecture
+- Leverage Server Components for data fetching and rendering
+- Use Client Components only when client-side interactivity is required
+- Direct Supabase integration through hooks for database operations
+- Focus on simplicity and maintainability
+
+## Basic Principles
+
+- Write clean, maintainable TypeScript code
+- Prioritize readability and simplicity
+- Structure code to be scalable and easily configurable
+- Include meaningful comments for logic blocks and functions
+- Make things simple, don't over-complicate the code
+- Use English for all code and documentation
+- Be thoughtful and thorough in error handling
+  - Always consider edge cases
+  - Provide meaningful error messages to users
+  - Handle errors at appropriate levels
+  - Log errors for debugging while respecting privacy
+
+## Frontend Guidelines
+
+### Component Architecture
+
+- Use functional components with TypeScript
+- Favor Server Components over Client Components unless client-side features are required
+- For common components, create in src/components/ui
+- For page-specific components, create in src/components/{page-name}
+
+### API Integration
+
+- Use the custom axios instance for API calls
+- Avoid using Next.js API routes when possible (use Supabase client directly)
+- Handle loading and error states appropriately
+
+### UI/UX Guidelines
+
+- Prioritize DaisyUI components before custom implementations
+- Use TailwindCSS for responsive and mobile-first designs
+- Optimize for Core Web Vitals (LCP, CLS, FID)
+- Use lazy loading for non-critical components and assets
+- Optimize images using WebP format and include size data
+
+#### Design System & Components
+- Follow a consistent color scheme using Tailwind's color palette
+- Maintain consistent spacing using Tailwind's spacing scale
+- Use semantic color variables for themes (primary, secondary, accent)
+- Implement consistent typography hierarchy
+- Ensure sufficient color contrast (WCAG 2.1 standards)
+- Use consistent component patterns:
+  - Button styles and states
+  - Form elements and validation
+  - Card layouts
+  - Navigation elements
+  - Modal and dialog patterns
+
+#### Mobile Responsiveness
+- Implement "mobile-first" approach in all designs
+- Use Tailwind's responsive breakpoints consistently:
+  - sm: 640px (smartphones)
+  - md: 768px (tablets)
+  - lg: 1024px (laptops)
+  - xl: 1280px (desktops)
+  - 2xl: 1536px (large screens)
+- Essential mobile considerations:
+  - Touch-friendly tap targets (min 44x44px)
+  - Appropriate font sizes for readability
+  - Sufficient spacing between interactive elements
+  - Avoid hover-dependent interactions
+  - Handle gestures appropriately (swipe, pinch, zoom)
+  - Consider viewport height issues (iOS Safari)
+
+#### Performance & Loading States
+- Implement skeleton loading states for dynamic content
+- Use transition animations judiciously
+- Optimize images and media:
+  - Responsive images using srcset
+  - Proper image dimensions
+  - WebP format with fallbacks
+  - Lazy loading for below-fold content
+- Handle offline states gracefully
+- Implement proper loading indicators
+
+#### Accessibility (a11y)
+- Follow WCAG 2.1 guidelines (minimum Level AA)
+- Ensure proper heading hierarchy
+- Implement proper ARIA labels and roles
+- Support keyboard navigation
+- Maintain focus management
+- Provide alt text for images
+- Ensure proper color contrast ratios
+- Test with screen readers
+
+#### User Experience Best Practices
+- Clear visual hierarchy and scannable content
+- Consistent navigation patterns
+- Meaningful error messages and feedback
+- Clear call-to-actions (CTAs)
+- Progressive disclosure of complex features
+- Smooth transitions and micro-interactions
+- Form validation with clear feedback
+- Empty states and error states design
+- Loading states and progress indicators
+
+## Backend Guidelines (Supabase)
+
+### Important Documentation References
+
+- Supabase JavaScript Client (@supabase/supabase-js): https://supabase.com/docs/reference/javascript
+  - Use for database operations, auth, and realtime subscriptions
+  - Follow official examples for best practices
+- Supabase CLI Documentation: https://supabase.com/docs/reference/cli
+  - Essential for database migrations
+  - Type generation
+  - Local development
+
+### Database Design
+
+- Design tables with appropriate relationships following PostgreSQL best practices
+- Leverage PostgreSQL features when beneficial:
+  - Use appropriate data types (e.g., UUID, JSONB, Arrays)
+  - Implement check constraints for data integrity
+  - Use materialized views for complex, frequently-accessed data
+- Use Row Level Security (RLS) policies for data access control
+- Implement proper indexing for frequently queried columns
+- Use Supabase Functions for complex business logic
+- Consider PostgreSQL-specific features like:
+  - Full-text search capabilities
+  - Array operations
+  - JSON operations with JSONB
+  - Triggers for automated actions
+
+### Authentication & Authorization
+
+- Use Supabase Auth for user management
+- Implement proper RLS policies for each table
+- Define clear access patterns in table policies
+
+## Naming Conventions
+
+### Components and Files
+
+- Components: PascalCase (Button.tsx, UserProfile.tsx)
+- Page-specific components: Prefix with page name (DashboardHeader.tsx)
+- Files/folders: kebab-case (user-profile/, auth-service.ts)
+- Specific file types:
+  - Component: name.tsx
+  - Styles: name.styles.ts
+  - Tests: name.test.tsx
+  - Types: name.types.ts
+  - Barrel exports: index.ts
+
+### Props and Interfaces
+
+- Props suffix for component props (ButtonProps)
+- 'is' prefix for boolean props (isLoading)
+- 'on' prefix for event handlers (onSubmit)
+
+### Hooks and Utils
+
+- 'use' prefix for hooks (useAuth, useSupabase)
+- Feature-specific hooks include context (useDashboardData)
+- Descriptive names for utility functions
+- Group related utilities (string.utils.ts)
+
+### Database
+
+- Table names: plural, snake_case (user_profiles)
+- Column names: snake_case (first_name)
+- Foreign keys: singular_table_name_id (user_id)
+- Junction tables: table1_table2 (user_roles)
+
+### Constants and Types
+
+- UPPER_SNAKE_CASE for constants (MAX_RETRY_ATTEMPTS)
+- PascalCase for types and interfaces (UserProfile)
+- Avoid type prefixes (no IUser or TUser)
+
+### Event Handlers
+
+- 'handle' prefix (handleSubmit, handleInputChange)
+- Descriptive names indicating the action
+
+## Testing Guidelines
+
+### Frontend Testing
+
+- Use .test.tsx or .spec.tsx suffix
+- Write descriptive test cases using 'should' statements
+- Test component rendering and interactions
+- Mock Supabase calls appropriately
+
+### Backend Testing (Supabase)
+
+- Test database policies
+- Verify RLS policies work as expected
+- Test Edge Functions if used
+- Use proper test data seeding
+
+## Error Handling
+
+- Implement comprehensive error handling strategy:
+  - Frontend:
+    - Use error boundaries for component-level errors
+    - Implement retry mechanisms for failed requests
+    - Show user-friendly error messages
+    - Maintain error state in forms
+  - Backend (Supabase):
+    - Handle database constraints violations gracefully
+    - Implement proper error codes and messages
+    - Log detailed errors server-side while sending safe messages to client
+  - General:
+    - Never expose sensitive information in error messages
+    - Implement proper fallbacks for all error scenarios
+    - Consider offline/network error states
+    - Handle authentication/authorization errors appropriately
+    - Log errors with proper context for debugging
+    - Consider implementing error tracking (e.g., Sentry)
+
+## Performance Considerations
+
+- Implement proper caching strategies
+- Use Supabase real-time subscriptions judiciously
+- Optimize database queries
+- Implement proper pagination
+- Use appropriate Supabase query filters
+
+## Security Guidelines
+
+- Never expose sensitive data in client-side code
+- Always use RLS policies
+- Implement proper input validation
+- Use environment variables for sensitive configuration
+- Regular security audits of RLS policies
+
