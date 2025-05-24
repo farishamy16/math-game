@@ -8,12 +8,9 @@ interface PlayerNameInputProps {
 
 export function PlayerNameInput({ value, onChange, isSubmitted }: PlayerNameInputProps) {
   return (
-    <div className="mb-8">
-      <label 
-        htmlFor="playerName" 
-        className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
-      >
-        Your Name:
+    <div className="form-control w-full max-w-xs mx-auto mb-8">
+      <label className="label">
+        <span className="label-text">What is your name?</span>
       </label>
       <input
         type="text"
@@ -22,9 +19,14 @@ export function PlayerNameInput({ value, onChange, isSubmitted }: PlayerNameInpu
         onChange={(e) => onChange(e.target.value)}
         disabled={isSubmitted}
         placeholder="Enter your name"
-        className="input input-bordered w-full max-w-xs"
+        className="input input-bordered w-full"
         required
       />
+      {!value.trim() && (
+        <label className="label">
+          <span className="label-text-alt text-error">Name is required to submit answers</span>
+        </label>
+      )}
     </div>
   )
 } 

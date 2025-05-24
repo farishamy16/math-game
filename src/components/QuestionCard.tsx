@@ -22,39 +22,49 @@ export function QuestionCard({
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className={`card bg-base-100 shadow-xl mb-6 ${
+      className="w-full"
+    >
+      <div className={`card w-full bg-base-100 shadow-xl ${
         isSubmitted
           ? isCorrect
             ? 'border-2 border-success'
             : 'border-2 border-error'
-          : ''
-      }`}
-    >
-      <div className="card-body">
-        <h2 className="card-title">
-          {question.number} rounded off to the nearest 10 is..
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4">
-          {question.options.map((option) => (
-            <button
-              key={option}
-              onClick={() => !isSubmitted && onSelectAnswer(option)}
-              disabled={isSubmitted}
-              className={`btn ${
-                selectedAnswer === option
-                  ? isSubmitted
-                    ? option === question.correctAnswer
-                      ? 'btn-success'
-                      : 'btn-error'
-                    : 'btn-primary'
-                  : isSubmitted && option === question.correctAnswer
-                  ? 'btn-success'
-                  : 'btn-outline'
-              }`}
-            >
-              {option}
-            </button>
-          ))}
+          : 'hover:shadow-2xl transition-shadow duration-200'
+      }`}>
+        <div className="card-body">
+          <h2 className="card-title text-2xl justify-center">
+            What is {question.number} rounded to the nearest 10?
+          </h2>
+          <div className="divider"></div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {question.options.map((option) => (
+              <button
+                key={option}
+                onClick={() => !isSubmitted && onSelectAnswer(option)}
+                disabled={isSubmitted}
+                className={`btn btn-lg ${
+                  selectedAnswer === option
+                    ? isSubmitted
+                      ? option === question.correctAnswer
+                        ? 'btn-success'
+                        : 'btn-error'
+                      : 'btn-primary'
+                    : isSubmitted && option === question.correctAnswer
+                    ? 'btn-success'
+                    : 'btn-outline btn-primary hover:btn-primary'
+                }`}
+              >
+                {option}
+              </button>
+            ))}
+          </div>
+          {isSubmitted && (
+            <div className="mt-4 text-center">
+              <div className={`badge badge-lg ${isCorrect ? 'badge-success' : 'badge-error'}`}>
+                {isCorrect ? 'Correct!' : 'Incorrect'}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </motion.div>

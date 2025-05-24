@@ -56,15 +56,44 @@ export function Game() {
     (q) => gameState.selectedAnswers[q.number] !== undefined
   )
 
-  return (
-    <div>
-      <PlayerNameInput
-        value={gameState.playerName}
-        onChange={(name) => setGameState((prev) => ({ ...prev, playerName: name }))}
-        isSubmitted={gameState.isSubmitted}
-      />
+  const progress = Math.round(
+    (Object.keys(gameState.selectedAnswers).length / questions.length) * 100
+  )
 
-      <div className="space-y-6">
+  return (
+    <div className="flex flex-col items-center">
+      <div className="stats shadow mb-8">
+        <div className="stat">
+          <div className="stat-title">Player</div>
+          <div className="stat-value text-lg">
+            {gameState.playerName || 'Anonymous'}
+          </div>
+          {gameState.isSubmitted && (
+            <div className="stat-desc">
+              Final Score: {gameState.score} / {questions.length}
+            </div>
+          )}
+        </div>
+        <div className="stat">
+          <div className="stat-title">Progress</div>
+          <div className="stat-value text-lg">{progress}%</div>
+          <progress 
+            className="progress progress-primary w-full" 
+            value={progress} 
+            max="100"
+          ></progress>
+        </div>
+      </div>
+
+      {!gameState.playerName.trim() && (
+        <PlayerNameInput
+          value={gameState.playerName}
+          onChange={(name) => setGameState((prev) => ({ ...prev, playerName: name }))}
+          isSubmitted={gameState.isSubmitted}
+        />
+      )}
+
+      <div className="space-y-8 w-full">
         {questions.map((question) => (
           <QuestionCard
             key={question.number}
@@ -80,21 +109,28 @@ export function Game() {
         ))}
       </div>
 
-      <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center items-center">
+      <div className="sticky bottom-4 w-full max-w-md mx-auto mt-8 flex justify-center">
         {gameState.isSubmitted ? (
-          <>
-            <div className="text-2xl font-bold mb-4">
-              Score: {gameState.score} / {questions.length}
+          <div className="card bg-base-100 shadow-xl">
+            <div className="card-body items-center text-center">
+              <h2 className="card-title text-3xl mb-4">
+                Score: {gameState.score} / {questions.length}
+              </h2>
+              <div className="radial-progress text-primary" style={{"--value": (gameState.score / questions.length) * 100} as any}>
+                {Math.round((gameState.score / questions.length) * 100)}%
+              </div>
+              <div className="card-actions mt-4">
+                <button onClick={handleReset} className="btn btn-primary btn-wide">
+                  Try Again
+                </button>
+              </div>
             </div>
-            <button onClick={handleReset} className="btn btn-primary">
-              Try Again
-            </button>
-          </>
+          </div>
         ) : (
           <button
             onClick={handleSubmit}
             disabled={!isAllQuestionsAnswered || !gameState.playerName.trim()}
-            className="btn btn-primary"
+            className="btn btn-primary btn-wide"
           >
             Submit Answers
           </button>

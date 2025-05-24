@@ -8,10 +8,18 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-gradient-to-br from-primary/10 to-secondary/10 py-10 px-4">
-      <div className="container mx-auto max-w-4xl">
-        <h1 className="text-4xl font-bold text-center mb-8">Rounding Off to Nearest 10</h1>
-        <Game />
+    <main className="min-h-screen bg-base-200">
+      <div className="hero py-8">
+        <div className="hero-content text-center">
+          <div className="max-w-4xl">
+            <h1 className="text-5xl font-bold mb-4">Rounding Off to Nearest 10</h1>
+            <p className="py-6">
+              Practice rounding numbers to the nearest 10 with this interactive game. 
+              Enter your name and answer all questions to test your skills!
+            </p>
+            <Game />
+          </div>
+        </div>
       </div>
     </main>
   )
