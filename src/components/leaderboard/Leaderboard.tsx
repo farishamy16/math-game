@@ -1,4 +1,4 @@
-import { LeaderboardEntry, LeaderboardProps } from '@/types/game'
+import { LeaderboardProps } from '@/types/game'
 
 export function Leaderboard({ scores }: LeaderboardProps) {
   return (

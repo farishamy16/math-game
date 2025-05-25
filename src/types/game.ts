@@ -29,6 +29,11 @@ export interface NameInputModalProps {
   onSubmit: (value: string) => void;
 }
 
+// Layout component props
+export interface SidebarProps {
+  children: React.ReactNode;
+}
+
 // Leaderboard related types
 export interface LeaderboardEntry {
   id: string;

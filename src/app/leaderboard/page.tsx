@@ -1,4 +1,5 @@
 import { Metadata } from 'next'
+import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 import { Leaderboard } from '@/components/leaderboard/Leaderboard'
 
@@ -37,9 +38,9 @@ export default async function LeaderboardPage() {
       <Leaderboard scores={scores} />
 
       <div className="text-center mt-8">
-        <a href="/" className="btn btn-primary">
+        <Link href="/" className="btn btn-primary">
           Play Game
-        </a>
+        </Link>
       </div>
     </div>
   )

@@ -1,6 +1,7 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, CSSProperties } from 'react'
+import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 import { questions } from '@/data/questions'
 import { GameState } from '@/types/game'
@@ -46,12 +47,12 @@ export function Game() {
     
     if (storedState) {
       const parsedState = JSON.parse(storedState)
-      setGameState(prev => ({
+      setGameState({
         ...parsedState,
         playerName: storedName || '' // Ensure playerName is always in sync
-      }))
+      })
     } else if (storedName) {
-      setGameState(prev => ({ ...prev, playerName: storedName }))
+      setGameState(state => ({ ...state, playerName: storedName }))
     }
   }, [])
 
@@ -237,16 +238,19 @@ export function Game() {
               <h2 className="card-title text-3xl mb-4">
                 Score: {gameState.score} / {questions.length}
               </h2>
-              <div className="radial-progress" style={{"--value": (gameState.score / questions.length) * 100} as any}>
+              <div 
+                className="radial-progress" 
+                style={{ "--value": (gameState.score / questions.length) * 100 } as CSSProperties}
+              >
                 {Math.round((gameState.score / questions.length) * 100)}%
               </div>
               <div className="card-actions mt-4 flex flex-col sm:flex-row gap-2 items-center justify-center w-full">
                 <button onClick={handleReset} className="btn btn-primary w-full sm:w-auto">
                   Try Again
                 </button>
-                <a href="/leaderboard" className="btn btn-outline w-full sm:w-auto">
+                <Link href="/leaderboard" className="btn btn-outline w-full sm:w-auto">
                   View Leaderboard
-                </a>
+                </Link>
               </div>
             </div>
           </div>
