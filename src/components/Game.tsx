@@ -37,12 +37,14 @@ export function Game() {
 
   // Save game state to localStorage whenever it changes
   useEffect(() => {
-    if (!gameState.isSubmitted) { // Only save if game is not submitted
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(gameState))
-    }
+    // Always save state, even when submitted
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(gameState))
   }, [gameState])
 
   const handleAnswerSelect = (questionNumber: number, answer: number | undefined) => {
+    // Don't allow changes if game is submitted
+    if (gameState.isSubmitted) return
+
     setGameState((prev) => {
       const newAnswers = { ...prev.selectedAnswers }
       if (answer === undefined) {
@@ -88,9 +90,9 @@ export function Game() {
         isSubmitted: true,
         score
       }))
-
-      // Clear saved game state after successful submission
-      localStorage.removeItem(STORAGE_KEY)
+      
+      // Don't remove storage after submission anymore
+      // Let it persist until explicit reset
     } catch (error) {
       console.error('Error saving score:', error)
       alert('Failed to save score. Please try again.')
@@ -98,6 +100,7 @@ export function Game() {
   }
 
   const handleReset = () => {
+    // Clear both state and storage on reset
     setGameState({
       playerName: '',
       selectedAnswers: {},
@@ -164,11 +167,11 @@ export function Game() {
               <div className="radial-progress text-primary" style={{"--value": (gameState.score / questions.length) * 100} as any}>
                 {Math.round((gameState.score / questions.length) * 100)}%
               </div>
-              <div className="card-actions mt-4 flex flex-col sm:flex-row gap-2">
-                <button onClick={handleReset} className="btn btn-primary">
+              <div className="card-actions mt-4 flex flex-col sm:flex-row gap-2 items-center justify-center w-full">
+                <button onClick={handleReset} className="btn btn-primary w-full sm:w-auto">
                   Try Again
                 </button>
-                <a href="/leaderboard" className="btn btn-outline">
+                <a href="/leaderboard" className="btn btn-outline w-full sm:w-auto">
                   View Leaderboard
                 </a>
               </div>
