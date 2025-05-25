@@ -64,7 +64,7 @@ export function QuestionCard({
                         ? option === question.correctAnswer
                           ? 'bg-success/20 text-success border-success'
                           : 'bg-error/20 text-error border-error'
-                        : 'bg-primary/20 text-primary border-primary'
+                        : 'bg-primary/10 border-primary'
                       : isSubmitted && option === question.correctAnswer
                       ? 'bg-success/20 text-success border-success'
                       : 'bg-base-200 hover:bg-base-300 border-transparent'
