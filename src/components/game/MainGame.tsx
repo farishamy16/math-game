@@ -5,8 +5,8 @@ import { createClient } from '@/lib/supabase/client'
 import { questions } from '@/data/questions'
 import { GameState } from '@/types/game'
 import { QuestionCard } from './QuestionCard'
-import { NameInputModal } from './ui/NameInputModal'
-import { GameStats } from './ui/GameStats'
+import { NameInputModal } from './NameInputModal'
+import { GameStats } from './GameStats'
 
 const STORAGE_KEY = 'gameState'
 

@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
-import { Game } from '@/components/Game'
-import { ResetButton } from '@/components/ui/ResetButton'
+import { Game } from '@/components/game/MainGame'
+import { ResetButton } from '@/components/game/ResetButton'
 
 export const metadata: Metadata = {
   title: 'Math Game - Play',

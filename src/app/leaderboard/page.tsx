@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/client'
-import { Leaderboard } from '@/components/Leaderboard'
+import { Leaderboard } from '@/components/leaderboard/Leaderboard'
 
 export const metadata: Metadata = {
   title: 'Math Game - Leaderboard',

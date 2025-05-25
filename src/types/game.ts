@@ -41,14 +41,3 @@ export interface LeaderboardEntry {
 export interface LeaderboardProps {
   scores: LeaderboardEntry[];
 }
-
-// Layout related types
-export interface SidebarProps {
-  children: React.ReactNode;
-}
-
-export interface HighScore {
-  playerName: string;
-  score: number;
-  timestamp: Date;
-} 
